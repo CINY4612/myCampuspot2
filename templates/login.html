@@ -13,7 +13,36 @@
     <!-- JS -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.js"></script>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Jua&family=Nanum+Gothic&display=swap" rel="stylesheet">
 
+    <style>
+        html {
+            background-color: #6a599d;
+            height: 100%;
+            font-family: 'Nanum Gothic', sans-serif;
+        }
+
+        .loginBox {
+            background-color: black;
+            color: white;
+
+            width: 30rem;
+            height: 450px;
+            padding: 5px 10px 0 20px;
+            margin: 5% auto;
+        }
+
+        .loginBox > h1 {
+            font-size: 50px;
+            margin-bottom: 100px;
+        }
+
+        .btnBox {
+            text-align: center;
+            margin-top: 100px;
+        }
+    </style>
 
     <script>
         {% if msg %}
@@ -39,35 +68,37 @@
             })
         }
 
+        function signup() {
+            window.location.href = '/signup'
+        }
+
     </script>
 
 </head>
 <body>
-<div class="section has-text-centered">
-    <h1 class="title">로그인 페이지</h1>
-    <div class="container" style="width:60%">
+<div class="loginBox">
+    <h1>CAMPUSPOT</h1>
+    <div class="container" style="width:70%">
+
         <div class="field">
             <p class="control has-icons-left has-icons-right">
                 <input id="email" class="input" type="email" placeholder="Email">
-                <span class="icon is-small is-left">
-                    <i class="fas fa-envelope"></i>
-                </span>
-                <span class="icon is-small is-right">
-                    <i class="fas fa-check"></i>
-                </span>
+                <span class="icon is-small is-left"><i class="fa-solid fa-envelope"></i></span>
+                <span class="icon is-small is-right"><i class="fa-solid fa-check"></i></span>
             </p>
         </div>
         <div class="field">
             <p class="control has-icons-left">
                 <input id="pw" class="input" type="password" placeholder="Password">
-                <span class="icon is-small is-left">
-                    <i class="fas fa-lock"></i>
-                </span>
+                <span class="icon is-small is-left"><i class="fa-light fa-lock-keyhole"></i></span>
             </p>
         </div>
-
-        <button class="button is-primary" onclick="login()">로그인</button>
+        <div class="btnBox">
+            <button class="button is-light is-small" onclick="login()">LOGIN</button>
+            <button class="button is-dark is-small" onclick="signup()">SIGN UP</button>
+        </div>
     </div>
+
 </div>
 </body>
 </html>
