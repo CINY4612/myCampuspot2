@@ -1,15 +1,73 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-        <title>CAMPUSPOT | LOGIN</title>
+<head>
+    <!-- Webpage Title -->
+    <title>CAMPUSPOT | LOGIN</title>
 
-        <!-- Bulma CSS 링크 -->
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css">
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-    </head>
-    <body>
+    <!-- Bulma CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css">
+    <!-- JS -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.js"></script>
 
-    </body>
+
+    <script>
+        {% if msg %}
+            alert("{{ msg }}")
+        {% endif %}
+
+        // [로그인 함수] - 입력한 email/pw값 전달하여 인증성공시 60초간 로그인 유지 (시간은 추후 수정)
+        function login() {
+            $.ajax({
+                type: "POST",
+                url: "/api/login",
+                data: {email_give: $('#email').val(), password_give: $('#pw').val()},
+                success: function (response) {
+                    if (response['result'] == 'success') {
+                        $.cookie('mytoken', response['token']); //토큰 받아와 쿠키에 저장
+
+                        alert('로그인 완료!')
+                        window.location.href = '/'
+                    } else {
+                        alert(response['msg'])  //msg = "아이디/비밀번호가 일치하지 않습니다"
+                    }
+                }
+            })
+        }
+
+    </script>
+
+</head>
+<body>
+<div class="section has-text-centered">
+    <h1 class="title">로그인 페이지</h1>
+    <div class="container" style="width:60%">
+        <div class="field">
+            <p class="control has-icons-left has-icons-right">
+                <input id="email" class="input" type="email" placeholder="Email">
+                <span class="icon is-small is-left">
+                    <i class="fas fa-envelope"></i>
+                </span>
+                <span class="icon is-small is-right">
+                    <i class="fas fa-check"></i>
+                </span>
+            </p>
+        </div>
+        <div class="field">
+            <p class="control has-icons-left">
+                <input id="pw" class="input" type="password" placeholder="Password">
+                <span class="icon is-small is-left">
+                    <i class="fas fa-lock"></i>
+                </span>
+            </p>
+        </div>
+
+        <button class="button is-primary" onclick="login()">로그인</button>
+    </div>
+</div>
+</body>
 </html>

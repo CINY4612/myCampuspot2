@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <!-- Webpage Title -->
+    <title>CAMPUSPOT | SIGN UP</title>
+
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bulma CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css">
+    <!-- JS -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.js"></script>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/earlyaccess/notosanskr.css" rel="stylesheet">
+
+
+    <script>
+    // [회원가입 함수] - 이메일(아이디), 비번, 닉네임, 생년월일, 학교 값을 DB에 저장
+        function signup() {
+            $.ajax({
+                type: "POST",
+                url: "/api/signup",
+                data: {
+                    email_give: $('#email').val(),
+                    password_give: $('#pw').val(),
+                    name_give: $('#name').val(),
+                    birth_give: $('#birth').val(),
+                    campus_give: $('#campus').val()
+                },
+                success: function (response) {
+                    if (response['result'] == 'success') {
+                        alert('회원가입이 완료되었습니다.')
+                        window.location.href = '/login'
+                    } else {
+                        alert(response['msg'])
+                    }
+                }
+            })
+        }
+
+    </script>
+</head>
+<body>
+<div class="section has-text-centered">
+    <h1 class="title">CAMPUSPOT 회원가입</h1>
+    <div class="container" style="width:60%">
+        <div class="field is-horizontal">
+            <div class="field-label is-normal">
+                <label class="label" for="email">Email</label>
+            </div>
+            <div class="field-body">
+                <div class="field">
+                    <div class="control">
+                        <input type="email" class="input" id="email" aria-describedby="emailHelp"
+                               placeholder="이메일을 입력하세요">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="field is-horizontal">
+            <div class="field-label is-normal">
+                <label class="label" for="pw">PW</label>
+            </div>
+            <div class="field-body">
+                <div class="field">
+                    <div class="control">
+                        <input type="password" class="input" id="pw" placeholder="비밀번호를 입력하세요">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="field is-horizontal">
+            <div class="field-label is-normal">
+                <label class="label" for="name">NICKNAME</label>
+            </div>
+            <div class="field-body">
+                <div class="field">
+                    <div class="control">
+                        <input type="text" class="input" id="name" placeholder="닉네임을 입력하세요">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="field is-horizontal">
+            <div class="field-label is-normal">
+                <label class="label" for="birth">BIRTH</label>
+            </div>
+            <div class="field-body">
+                <div class="field">
+                    <div class="control">
+                        <input type="text" class="input" id="birth" placeholder="ex) 20220712">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="field is-horizontal">
+            <div class="field-label is-normal">
+                <label class="label" for="campus">CAMPUS</label>
+            </div>
+            <div class="field-body">
+                <div class="field">
+                    <div class="control">
+                        <input type="text" class="input" id="campus" placeholder="학교명을 입력하세요">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <button class="button is-primary" onclick="signup()">회원가입</button>
+    </div>
+</div>
+</body>
+</html>
