@@ -1,0 +1,169 @@
+<!doctype html>
+<html lang="en">
+<head>
+    {% block head %}
+        <!-- Required meta tags -->
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+        <!-- Bulma CSS -->
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css">
+        <!-- JS -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.js"></script>
+
+        <!-- Webpage Title -->
+        <title>CAMPUSPOT | MAIN</title>
+
+        <!-- Google Fonts -->
+        <link href="https://fonts.googleapis.com/css2?family=Jua&family=Nanum+Gothic&display=swap" rel="stylesheet">
+    {% endblock %}
+
+    <style>
+        html {
+            background-color: #6a599d;
+            height: 100%;
+            font-family: 'Nanum Gothic', sans-serif;
+        }
+
+        header {
+            background-color: rgba(0, 0, 0, 0.8);
+            padding: 10px;
+            color: white;
+            margin-bottom: 50px;
+        }
+
+        #myBtnstyle {
+            background-color: rgba(255, 255, 255, 0);
+            color: white;
+        }
+
+        #myTopbarstyle {
+            background-color: rgba(0, 0, 0, 0);
+            text-align: right;
+        }
+
+        myTopbarstyle > button {
+            background-color: rgba(0, 0, 0, 0);
+        }
+
+        #myContainstyle {
+            padding: 0;
+        }
+
+        .notification a:not(.button):not(.dropdown-item) {
+            text-decoration: none;
+        }
+
+        .tabs li.is-active a {
+            border-bottom-color: #27203a;
+        }
+
+    </style>
+
+    <script>
+
+        function logout() {
+            $.removeCookie('mytoken');  //로그아웃 버튼 입력시 토큰 삭제
+            alert('로그아웃!')
+            window.location.href = '/login'
+        }
+
+        function back() {
+            window.location.href = '/'
+        }
+
+        function addComment() {
+            let comment = $('#comment').val()
+            $.ajax({
+                type: 'POST',
+                url: '/api/addComment',
+                data: {comment_give: comment},
+                success: function (response) {
+                    alert(response['msg'])
+                    window.location.reload()
+                }
+            })
+        }
+    </script>
+
+</head>
+
+<body>
+{#헤더 및 navbar#}
+<header>
+    <nav class="mainNav">
+        <span class="greetMsg">{{ name }} 님 환영합니다.</span>
+        <button onclick="logout()" id="myBtnstyle" class="button is-outlined is-small">LOGOUT</button>
+
+    </nav>
+</header>
+
+{#글 작성 버튼 바#}
+<div class="container is-fluid" id="myContainstyle">
+    <div class="notification" id="myTopbarstyle">
+        <button onclick="back()" class="button is-outlined is-small">BACK</button>
+    </div>
+</div>
+
+<div class="container is-fluid">
+    <div class="notification is-white">
+        <article class="media">
+            <figure class="media-left">
+                <p class="image">
+                    <img src="https://images.unsplash.com/photo-1657566647052-797d5b81b540?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80">
+                </p>
+            </figure>
+            <div class="media-content">
+                <div class="content is-size-5" id="mainContent">
+                    <div class="myTag">
+                        <span class="tag is-rounded"><a href="#">#tag</a></span><span class="tag is-rounded"><a
+                            href="#">#tag</a></span>
+                    </div>
+                    <br>
+                    <p>
+                        <strong>db 받아올 닉네임</strong>
+                    <div>
+                        db 받아올 내용 (작성글)
+                    </div>
+                    <br>
+                    <p class="is-size-7">
+                        <time datetime="2016-1-1">11:09 PM - 1 Jan 2016</time>
+                    </p>
+                    </p>
+                </div>
+
+                <article class="media" id="userComment">
+                    <div class="media-content">
+                        <div class="content is-size-6">
+                            <p>
+                                <strong>닉네임</strong>
+                            <span>댓글</span>
+                            <br>
+                            <p class="is-size-7">
+                                <time datetime="2016-1-1">11:09 PM - 1 Jan 2016</time>
+                            </p>
+                            </p>
+                        </div>
+
+                    </div>
+                </article>
+
+                <article class="media">
+                    <div class="media-content">
+                        <div class="field">
+                            <p class="control">
+                                <textarea class="textarea" placeholder="Add a comment..."></textarea>
+                            </p>
+                        </div>
+                        <div class="field">
+                            <p class="control">
+                                <button onclick="addComment()" class="button">Post comment</button>
+                            </p>
+                        </div>
+                    </div>
+                </article>
+            </div>
+    </div>
+</body>
+</html>
