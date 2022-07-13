@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+            integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+            crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+            integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+            crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.js"></script>
+    <style>
+        body {
+            background-image: url('https://cdn.pixabay.com/photo/2018/02/08/11/17/network-3139214_960_720.jpg');
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
+            height: 100vh;
+            background-color: antiquewhite;
+        }
+
+        .wrap {
+            height: 100vh;
+        }
+
+        .container {
+            border-radius: 5px;
+            background-color: rgba(0, 0, 0, 0.60);
+            margin-top: 5rem;
+            width: 50%;
+            height: 80vh;
+            min-width: 500px;
+            padding: 20px;
+        }
+
+        .title {
+            text-align: center;
+
+            color: white;
+            border-radius: 5px;
+            margin-bottom: 30px;
+        }
+
+        .btn {
+            border: none;
+        }
+
+        .leftbtn {
+            margin-right: 30px;
+            background-color: coral;
+        }
+
+        .rightbtn {
+            background-color: aquamarine;
+        }
+    </style>
+    <title>Title</title>
+</head>
+
+<!--## 글 작성시 저장할 데이터들-->
+<!--# write = {-->
+<!--# 'title':title_receive,-->
+<!--# 'email': email_receive, #author-->
+<!--# 'body':body_receive,-->
+<!--# 'picture':picture_receive, # URL-->
+<!--# 'tag':tag_receive,-->
+<!--# 'campus':campus_receive-->
+<!--# }-->
+<body>
+<div class="wrap">
+
+    <div class="container">
+        <h1 class="title">게시글을 추가해주세요</h1>
+        <div class="posting-box">
+            <div class="form-group">
+                <input type="text" class="form-control" id="title" placeholder="게시글 제목">
+            </div>
+            <div class="form-group">
+                <input type="email" class="form-control" id="email" placeholder="이메일">
+            </div>
+            <div class="form-group">
+                <input type="text" class="form-control" id="campus" placeholder="대학">
+            </div>
+             <div class="form-group">
+                <input type="text" class="form-control" id="photo" placeholder="사진링크">
+            </div>
+            <div class="form-group">
+                <input type="text" class="form-control" id="tag" placeholder="태그">
+            </div>
+            <!--                <div class="form-group">-->
+            <!--                    <input type="text" class="form-control" id="photo" placeholder="사진">-->
+            <!--                </div>-->
+            <div class="form-group">
+                    <textarea class="form-control" id="body" rows="3"
+                              placeholder="내용 입력"></textarea>
+            </div>
+            <div class="btn-wrap">
+                <button type="button" class="btn btn-light leftbtn" onclick="goback()">뒤로가기</button>
+                <button type="button" class="btn btn-light rightbtn" onclick="savePost()">저장하기</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    function goback() {
+        window.location.href = '/'
+    }
+
+    function savePost() {
+        let postNum = 0;
+        let title = $("#title").val();
+        let email = $("#email").val();
+        let campus = $("#campus").val();
+        let tag = $("#tag").val();
+        let photo = $("#photo").val();
+        let body = $("#body").val();
+
+        $.ajax({
+            type: "POST",
+            url: `/api/savePost`,
+            data: {
+                title_give: title,
+                email_give: email,
+                campus_give: campus,
+                tag_give: tag,
+                photo_give:photo,
+                body_give: body,
+            },
+            success: function (response) {
+                if (response['result'] == 'success') {
+                    // 로그인이 정상적으로 되면, 토큰을 받아옵니다.
+                    // 이 토큰을 mytoken이라는 키 값으로 쿠키에 저장합니다.
+                    console.log('토큰받기성공W', response['token'])
+                    $.cookie('mytoken', response['token']);
+
+                    alert('작성 완료!')
+                    window.location.href = '/'
+                    console.log('good')
+                } else {
+                    // 로그인이 안되면 에러메시지를 띄웁니다.
+                    alert(response['msg'])
+                }
+            }
+        });
+    }
+</script>
+</body>
+</html>
